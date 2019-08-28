@@ -4,9 +4,11 @@ module.exports = async function(app) {
   await Promise.all([
     // create roles
     app.models.Role.create(rolesData),
-    // create a root user
+    // create a users
     app.models.AppUser.create(usersData),
-  ]).then(([roles, users]) => {
+    // create default organization
+    app.models.Organization.create({name: 'default'}),
+  ]).then(([roles, users, org]) => {
     for (let i = 0; i < users.length; i++) {
       let user = users[i];
       let role = roles[i];
@@ -14,9 +16,10 @@ module.exports = async function(app) {
         principalType: 'USER',
         principalId: user.id,
       });
+      user.organizationId = org.id;
       user.save();
     }
-    console.log(users);
+    console.log(`created ${users.length} users`);
     return {roles, users};
   });
   return addAcls(app);
