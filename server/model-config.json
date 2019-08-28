@@ -21,6 +21,15 @@
         "type": "belongsTo",
         "model": "AppUser",
         "foreignKey": "userId"
+      },
+      "roles": {
+        "type": "embedsMany",
+        "model": "Roles",
+        "property": "roleList",
+        "options": {
+          "validate": true,
+          "forceId": false
+        }
       }
     }
   },
@@ -45,6 +54,14 @@
   },
   "Organization": {
     "dataSource": "db",
+    "public": true
+  },
+  "ApiModel": {
+    "dataSource": null,
+    "public": false
+  },
+  "Example": {
+    "dataSource": null,
     "public": true
   }
 }
