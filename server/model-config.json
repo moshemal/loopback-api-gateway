@@ -56,10 +56,6 @@
     "dataSource": "db",
     "public": true
   },
-  "ApiModel": {
-    "dataSource": null,
-    "public": false
-  },
   "Example": {
     "dataSource": null,
     "public": true
