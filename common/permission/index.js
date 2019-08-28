@@ -11,8 +11,7 @@ function belongsToOrganization(Model, userId, organizationId, next) {
   const AppUser = Model.registry.getModel('AppUser');
   return AppUser.findById(userId).then(user => {
     const userData = JSON.parse(JSON.stringify(user));
-    console.log(userData);
-    if (userData.role.includes('root') || userData.organizationId == organizationId) {
+    if (userData.organizationId == organizationId) {
       next();
     } else {
       next(forbiddenAccess());
@@ -20,7 +19,15 @@ function belongsToOrganization(Model, userId, organizationId, next) {
   });
 }
 
+function belongsToOrgOrRoot(Model, accessToken, organizationId, next) {
+  if (accessToken.roles.some(r => r.name === 'root')) {
+    return next();
+  } else {
+    belongsToOrganization(Model, accessToken.userId, organizationId, next);
+  }
+}
+
 module.exports = {
   forbiddenAccess,
-  belongsToOrganization,
+  belongsToOrgOrRoot,
 };

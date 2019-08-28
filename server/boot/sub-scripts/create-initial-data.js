@@ -56,7 +56,7 @@ function addAcls(app) {
       principalId: 'root',
       permission: 'ALLOW',
     }),
-    ...[].map(modelName => app.models.ACL.create({
+    ...['Example'].map(modelName => app.models.ACL.create({
       model: modelName,
       property: '*',
       accessType: '*',

@@ -1,18 +1,13 @@
-const {belongsToOrganization} = require('../permission');
+const {belongsToOrgOrRoot} = require('../permission');
 
 module.exports = function(Example) {
   Example.beforeRemote('*', function(ctx, bla, next) {
-    console.log(ctx.args, bla);
-    belongsToOrganization(Example,
-      ctx.req.accessToken.userId, ctx.args.organizationId, next);
-    // for error call next with new Error('reason of error')
+    console.log(ctx.args, bla, ctx.req.accessToken);
+    belongsToOrgOrRoot(Example, ctx.req.accessToken, ctx.args.organizationId, next);
   });
 
   Example.foo = function(organizationId, next) {
-    // res.send('[\n');
-    // res.send('"lala"\n');
-    // res.send(']');
-    next(null, {result: 'from foo'});
+    next(null, {result: 'from foo ' + organizationId});
   };
 
   Example.remoteMethod(
