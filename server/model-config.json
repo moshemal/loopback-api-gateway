@@ -13,12 +13,16 @@
       "./mixins"
     ]
   },
-  "User": {
-    "dataSource": "db"
-  },
   "AccessToken": {
     "dataSource": "db",
-    "public": false
+    "public": false,
+    "relations": {
+      "user": {
+        "type": "belongsTo",
+        "model": "AppUser",
+        "foreignKey": "userId"
+      }
+    }
   },
   "ACL": {
     "dataSource": "db",
@@ -34,5 +38,13 @@
   "Role": {
     "dataSource": "db",
     "public": false
+  },
+  "AppUser": {
+    "dataSource": "db",
+    "public": true
+  },
+  "Organization": {
+    "dataSource": "db",
+    "public": true
   }
 }
